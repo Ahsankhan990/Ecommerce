@@ -1,0 +1,180 @@
+ :root {
+   --bg: #f9fafb;
+   --card-bg: #fff;
+   --primary: linear-gradient(90deg, #667eea, #06b6d4);
+   --primary-solid: #667eea;
+   --primary-dark: #5a67d8;
+   --border: #e5e7eb;
+   --text: #111827;
+   --muted: #6b7280;
+   --radius: 12px;
+   --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+   --shadow-hover: 0 6px 18px rgba(0, 0, 0, 0.12);
+   --transition: 0.25s ease;
+   font-family: 'Inter', sans-serif;
+ }
+
+ * {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+ }
+
+ body {
+   background: var(--bg);
+   height: 100vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   color: var(--text);
+ }
+
+ main.shell {
+   width: 100%;
+   max-width: 420px;
+   padding: 20px;
+ }
+
+ /* Card */
+ .card {
+   background: var(--card-bg);
+   border-radius: var(--radius);
+   padding: 2rem;
+   box-shadow: var(--shadow);
+   animation: fadeIn 0.6s ease;
+ }
+
+ /* Brand */
+ .brand {
+   text-align: center;
+   margin-bottom: 1.5rem;
+ }
+
+ .brand .logo {
+   font-size: 40px;
+   margin-bottom: 6px;
+ }
+
+ .brand h1 {
+   font-size: 24px;
+   font-weight: 700;
+   margin-bottom: 4px;
+   /* background: var(--primary); */
+   /* -webkit-background-clip: text; */
+   /* -webkit-text-fill-color: transparent; */
+ }
+
+ .brand .muted {
+   font-size: 14px;
+   color: var(--muted);
+   margin-bottom: 20px;
+ }
+
+ /* Alert */
+ .alert {
+   background: #fee2e2;
+   color: #b91c1c;
+   border: 1px solid #fecaca;
+   padding: 10px;
+   border-radius: var(--radius);
+   margin-bottom: 15px;
+   font-size: 14px;
+ }
+
+ /* Fields */
+ .field {
+   margin-bottom: 16px;
+   text-align: left;
+ }
+
+ .field label {
+   font-size: 14px;
+   font-weight: 600;
+   color: var(--text);
+   margin-bottom: 6px;
+   display: block;
+ }
+
+ .field input {
+   width: 100%;
+   padding: 12px 14px;
+   border-radius: var(--radius);
+   border: 1px solid var(--border);
+   outline: none;
+   font-size: 14px;
+   transition: var(--transition);
+ }
+
+ .field input:focus {
+   border-color: var(--primary-solid);
+   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25);
+ }
+
+ /* Checkbox row */
+ .row {
+   display: flex;
+   align-items: center;
+   margin-bottom: 16px;
+ }
+
+ .checkbox input {
+   margin-right: 8px;
+ }
+
+ .checkbox span {
+   font-size: 14px;
+   color: var(--muted);
+ }
+
+ /* Links */
+ .link {
+   font-size: 14px;
+   color: #667eea;
+   text-decoration: none;
+   transition: var(--transition);
+ }
+
+ .link:hover {
+   color: var(--primary-dark);
+   text-decoration: underline;
+ }
+
+ /* Button */
+ .btn {
+   width: 100%;
+   padding: 12px;
+   border-radius: var(--radius);
+   background: var(--primary);
+   border: none;
+   color: white;
+   font-weight: 600;
+   font-size: 15px;
+   cursor: pointer;
+   transition: var(--transition);
+ }
+
+ .btn:hover {
+   box-shadow: var(--shadow-hover);
+   transform: translateY(-2px);
+ }
+
+ /* Footer */
+ .foot {
+   text-align: center;
+   margin-top: 15px;
+   font-size: 12px;
+   color: var(--muted);
+ }
+
+ /* Animation */
+ @keyframes fadeIn {
+   from {
+     opacity: 0;
+     transform: translateY(15px);
+   }
+
+   to {
+     opacity: 1;
+     transform: translateY(0);
+   }
+ }

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Checkout — MyShop</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home_page.css') }}">
+  <style>
+    .checkout-container { max-width: 960px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 28px; }
+    .checkout-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 24px; grid-column: 1 / -1; }
+    .form-card { background: #fff; border-radius: 12px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    .form-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #f0f0f0; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 600; color: #555; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 11px 14px; border: 1.5px solid #e0e0e0; border-radius: 8px; font-size: 0.95rem; font-family: inherit; transition: border-color 0.2s; outline: none; }
+    .form-group input:focus, .form-group textarea:focus { border-color: #6c47ff; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .payment-option { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border: 1.5px solid #e0e0e0; border-radius: 8px; margin-bottom: 10px; cursor: pointer; transition: border-color 0.2s; }
+    .payment-option:has(input:checked) { border-color: #6c47ff; background: #f8f5ff; }
+    .payment-option input { accent-color: #6c47ff; width: 16px; height: 16px; }
+    .payment-label { font-weight: 600; font-size: 0.95rem; }
+    .payment-sub { font-size: 0.78rem; color: #888; margin-top: 2px; }
+    .order-summary-card { background: #fff; border-radius: 12px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); height: fit-content; }
+    .order-summary-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #f0f0f0; }
+    .summary-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f8f8f8; font-size: 0.92rem; }
+    .summary-item .item-name { color: #444; }
+    .summary-item .item-price { font-weight: 600; }
+    .summary-total { display: flex; justify-content: space-between; padding: 16px 0 0; font-size: 1.1rem; font-weight: 700; margin-top: 8px; }
+    .summary-total span:last-child { color: #6c47ff; }
+    .place-order-btn { width: 100%; background: #6c47ff; color: #fff; padding: 14px; border: none; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 20px; transition: background 0.2s; font-family: inherit; }
+    .place-order-btn:hover { background: #5233d4; }
+    @media (max-width: 700px) { .checkout-container { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo" style="width: 110px;">MyShop</div>
+    <nav>
+      <a href="{{ url_for('customer.home_page') }}">Home</a>
+      <a href="#">Shop</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="actions">
+      <a class="btn ghost" href="{{ url_for('customer.cart_page') }}">Cart</a>
+      <a class="btn" href="{{ url_for('auth.login') }}">Login</a>
+    </div>
+  </header>
+
+  <div class="checkout-container">
+    <div class="checkout-title">Checkout</div>
+
+    <form method="POST" action="{{ url_for('customer.place_order') }}">
+
+      <!-- Delivery Info -->
+      <div class="form-card">
+        <h3>📦 Delivery Information</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" name="full_name" placeholder="Muhammad Ahsan" required value="{{ current_user.name if current_user.name else '' }}">
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="text" name="phone" placeholder="03XX-XXXXXXX" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Street Address</label>
+          <input type="text" name="address" placeholder="House #, Street, Area" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" name="city" placeholder="Karachi" required>
+          </div>
+          <div class="form-group">
+            <label>Province</label>
+            <select name="province">
+              <option>Sindh</option>
+              <option>Punjab</option>
+              <option>KPK</option>
+              <option>Balochistan</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Order Notes (Optional)</label>
+          <textarea name="notes" rows="3" placeholder="Any special instructions..."></textarea>
+        </div>
+
+        <!-- Payment Method -->
+        <h3 style="margin-top:24px;">💳 Payment Method</h3>
+        <label class="payment-option">
+          <input type="radio" name="payment_method" value="cash_on_delivery" checked>
+          <div>
+            <div class="payment-label">Cash on Delivery</div>
+            <div class="payment-sub">Pay when your order arrives</div>
+          </div>
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="payment_method" value="jazzcash">
+          <div>
+            <div class="payment-label">JazzCash</div>
+            <div class="payment-sub">Coming soon</div>
+          </div>
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="payment_method" value="easypaisa">
+          <div>
+            <div class="payment-label">EasyPaisa</div>
+            <div class="payment-sub">Coming soon</div>
+          </div>
+        </label>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="order-summary-card">
+        <h3>🛒 Order Summary</h3>
+        {% for item in cart_items %}
+        <div class="summary-item">
+          <span class="item-name">{{ item.product.name }} × {{ item.quantity }}</span>
+          <span class="item-price">PKR {{ '%.2f'|format(item.product.price * item.quantity) }}</span>
+        </div>
+        {% endfor %}
+        <div class="summary-total">
+          <span>Total</span>
+          <span>PKR {{ '%.2f'|format(total) }}</span>
+        </div>
+        <button type="submit" class="place-order-btn">Place Order →</button>
+      </div>
+
+    </form>
+  </div>
+
+</body>
+</html>

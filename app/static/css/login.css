@@ -1,0 +1,169 @@
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+/* Background blur */
+.bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  filter: blur(40px);
+  z-index: -1;
+}
+
+/* Container */
+.shell {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+}
+
+/* Card */
+.card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 2rem;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  text-align: center;
+  animation: fadeIn 1s ease;
+}
+
+/* Logo + Title */
+.brand .logo {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.brand h1 {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.brand .muted {
+  font-size: 14px;
+  color: #d1d5db;
+  margin-bottom: 20px;
+}
+
+/* Alert Box */
+.alert {
+  background: rgba(255, 75, 75, 0.2);
+  color: #ff4b4b;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+/* Form Fields */
+.field {
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e5e7eb;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.field input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.field input:focus {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid #fff;
+}
+
+/* Row */
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.checkbox input {
+  margin-right: 8px;
+}
+
+.checkbox span {
+  font-size: 14px;
+  color: #e5e7eb;
+}
+
+/* Links */
+.link {
+  font-size: 14px;
+  color: #a5b4fc;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.link:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Button */
+.btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border: none;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(90deg, #5a67d8, #6b46c1);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+/* Footer */
+.foot {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 12px;
+  color: #d1d5db;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}

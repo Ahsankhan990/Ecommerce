@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Orders — Admin</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="header">
+      <div class="brand">
+        <div class="logo">A</div>
+        <div class="hgroup">
+          <h1>Orders</h1>
+          <p>View and manage customer orders</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <a class="btn ghost" href="{{ url_for('admin.deshboard') }}">← Dashboard</a>
+        <div style="text-align:right">
+          <div style="font-size:13px;color:var(--muted)">Signed in as</div>
+          <div style="font-weight:700">{{ current_user.name if current_user.is_authenticated else 'Admin' }}</div>
+        </div>
+      </div>
+    </header>
+
+    <section class="main-card">
+
+      <!-- Stats row -->
+      <div class="stats">
+        <div class="stat">
+          <div class="label">Total Orders</div>
+          <div class="value">{{ orders|length }}</div>
+        </div>
+        <div class="stat">
+          <div class="label">Pending</div>
+          <div class="value">{{ orders|selectattr('status','equalto','pending')|list|length }}</div>
+        </div>
+        <div class="stat">
+          <div class="label">Delivered</div>
+          <div class="value">{{ orders|selectattr('status','equalto','delivered')|list|length }}</div>
+        </div>
+        <div class="stat">
+          <div class="label">Total Revenue</div>
+          <div class="value">PKR {{ "%.0f"|format(orders|sum(attribute='total_amount')) }}</div>
+        </div>
+      </div>
+
+      <h2 style="margin:0 0 10px 0">All Orders</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Phone</th>
+              <th>City</th>
+              <th>Total</th>
+              <th>Payment</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for o in orders %}
+            <tr>
+              <td><strong>#{{ o.order_id }}</strong></td>
+              <td>{{ o.full_name }}</td>
+              <td>{{ o.phone }}</td>
+              <td>{{ o.city }}</td>
+              <td><strong>PKR {{ '%.2f'|format(o.total_amount) }}</strong></td>
+              <td>{{ o.payment_method | replace('_', ' ') | title }}</td>
+              <td style="font-size:13px;color:var(--muted)">
+                {{ o.created_at.strftime('%d %b %Y') if o.created_at else '—' }}
+              </td>
+              <td>
+                <span class="status {{ o.status }}">{{ o.status.capitalize() }}</span>
+              </td>
+              <td style="display:flex;gap:6px;flex-wrap:wrap">
+                <a href="{{ url_for('admin.order_detail', order_id=o.order_id) }}" class="btn">View</a>
+                <form method="POST" action="{{ url_for('admin.update_order_status', order_id=o.order_id) }}">
+                  <select name="status" onchange="this.form.submit()" style="padding:6px 10px;border-radius:8px;border:1px solid var(--border);font-size:13px;background:var(--surface);color:var(--text);cursor:pointer">
+                    <option value="pending"    {{ 'selected' if o.status == 'pending' }}>Pending</option>
+                    <option value="processing" {{ 'selected' if o.status == 'processing' }}>Processing</option>
+                    <option value="shipped"    {{ 'selected' if o.status == 'shipped' }}>Shipped</option>
+                    <option value="delivered"  {{ 'selected' if o.status == 'delivered' }}>Delivered</option>
+                    <option value="cancelled"  {{ 'selected' if o.status == 'cancelled' }}>Cancelled</option>
+                  </select>
+                </form>
+              </td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="9" style="text-align:center;color:var(--muted)">No orders yet</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside class="side-card">
+      <h3>Order Status</h3>
+      <div class="mini-list">
+        <div class="mini-item">
+          <div>Pending</div>
+          <div><strong>{{ orders|selectattr('status','equalto','pending')|list|length }}</strong></div>
+        </div>
+        <div class="mini-item">
+          <div>Processing</div>
+          <div><strong>{{ orders|selectattr('status','equalto','processing')|list|length }}</strong></div>
+        </div>
+        <div class="mini-item">
+          <div>Shipped</div>
+          <div><strong>{{ orders|selectattr('status','equalto','shipped')|list|length }}</strong></div>
+        </div>
+        <div class="mini-item">
+          <div>Delivered</div>
+          <div><strong>{{ orders|selectattr('status','equalto','delivered')|list|length }}</strong></div>
+        </div>
+        <div class="mini-item">
+          <div>Cancelled</div>
+          <div><strong>{{ orders|selectattr('status','equalto','cancelled')|list|length }}</strong></div>
+        </div>
+      </div>
+    </aside>
+
+    <footer class="note">© 2025 Your Shop • Admin Panel</footer>
+  </div>
+</body>
+</html>

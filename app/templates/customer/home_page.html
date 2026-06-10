@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Home — Your Shop</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home_page.css') }}">
+
+
+</head>
+ 
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo" style="width: 110px;">MyShop</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="{{ url_for('customer.shop_page') }}">Shop</a>
+      <a href="{{ url_for('customer.home_page') }}#about">About</a>
+      <a href="{{ url_for('customer.contact_page') }}">Contact</a>
+    </nav>
+    <div class="actions">
+      <a class="btn ghost" href="#">Cart</a>
+      <a class="btn" href="{{ url_for('auth.login') }}">Login</a>
+    </div>
+    <div class="menu-toggle" onclick="document.querySelector('.navbar nav').classList.toggle('active')">
+      ☰
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Welcome to YourShop</h1>
+    <p>Discover the best products with amazing deals</p>
+    <a class="btn" href="#">Shop Now</a>
+  </section>
+
+  <!-- Categories -->
+  <h2 class="section-title">Browse Categories</h2>
+  <div class="categories">
+    <div class="category-card">Electronics</div>
+    <div class="category-card">Clothing</div>
+    <div class="category-card">Books</div>
+    <div class="category-card">Accessories</div>
+  </div>
+
+  <!-- Featured Products -->
+ <h2 class="section-title">Featured Products</h2>
+<div class="products">
+  {% for p in products %}
+    <div class="product-card">
+      <img src="{{ url_for('static', filename=p.image_url) }}" 
+           alt="{{ p.name }}" 
+           style="width:250px;height:250px;border-radius:6px;">
+
+      <h4>{{ p.name }}</h4>
+      <div class="price">PKR {{ '%.2f'|format(p.price) }}</div>
+
+      <!-- View button (redirect to product_view page) -->
+      <a class="btn" href="{{ url_for('customer.product_view', product_id=p.product_id) }}">Buy Now</a>
+    </div>
+  {% else %}
+    <p>No products added yet.</p>
+  {% endfor %}
+</div>
+
+
+  <!-- About -->
+  <section class="about" id="about">
+    <h2>Why Choose Us?</h2>
+    <p>We provide high-quality products at affordable prices, with fast delivery and reliable customer service. Join
+      thousands of happy customers who trust YourShop.</p>
+  </section>
+
+  
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 YourShop • All Rights Reserved</p>
+    <p>Follow us on Social Media</p>
+  </footer>
+</body>
+
+
+</html>

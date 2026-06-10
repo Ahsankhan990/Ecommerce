@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>My Cart — MyShop</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home_page.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/cart.css') }}">
+
+  
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo" style="width: 110px;">MyShop</div>
+    <nav>
+      <a href="{{ url_for('customer.home_page') }}">Home</a>
+      <a href="#">Shop</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="actions">
+      <a class="btn ghost" href="{{ url_for('customer.cart_page') }}">Cart</a>
+      <a class="btn" href="{{ url_for('auth.login') }}">Login</a>
+    </div>
+  </header>
+
+  <div class="cart-container">
+    <div class="cart-title">My Cart</div>
+
+    {% if cart_items %}
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cart_items %}
+          <tr>
+            <td>
+              <img src="{{ url_for('static', filename=item.product.image_url) if item.product.image_url else '' }}"
+                   onerror="this.src='https://placehold.co/64x64?text=No+Image'"
+                   alt="{{ item.product.name }}">
+            </td>
+            <td><div class="product-name">{{ item.product.name }}</div></td>
+            <td><div class="price">PKR {{ '%.2f'|format(item.product.price) }}</div></td>
+            <td>{{ item.quantity }}</td>
+            <td><div class="price">PKR {{ '%.2f'|format(item.product.price * item.quantity) }}</div></td>
+            <td>
+              <form method="POST" action="{{ url_for('customer.remove_from_cart', cart_id=item.cart_id) }}">
+                <button type="submit" class="remove-btn">Remove</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="cart-summary">
+        <div class="total-text">Total: <span class="total-amount">PKR {{ '%.2f'|format(total) }}</span></div>
+        <a href="{{ url_for('customer.checkout_page') }}" class="checkout-btn">Proceed to Checkout →</a>
+      </div>
+
+    {% else %}
+      <div class="empty-cart">
+        <p style="font-size:1.2rem; margin-bottom:12px;">Your cart is empty.</p>
+        <a href="{{ url_for('customer.home_page') }}">Continue Shopping →</a>
+      </div>
+    {% endif %}
+  </div>
+
+</body>
+</html>
