@@ -1,4 +1,4 @@
-# 🛒 MyShop — Flask E-Commerce Platform
+# MyShop — Flask E-Commerce Platform
  
 A full-stack e-commerce web application built with Python, Flask, and MySQL. Features a complete shopping experience for customers and a powerful admin panel for store management.
 
@@ -61,10 +61,24 @@ E_Commerce/
 ├── config.py              # App configuration
 ├── run.py                 # App entry point
 └── requirements.txt       # Python dependencies
+
+
 ```
  
 ---
- 
+## ⚙️ Installation & Setup
+
+### Clone the repository
+```bash
+git clone https://github.com/Ahsankhan990/Ecommerce.git
+cd Ecommerce
+```
+
+### Create virtual environment
+```bash
+python -m venv env
+env\Scripts\activate
+```
  
 ### Run the app
 bash
@@ -73,7 +87,7 @@ Open `http://127.0.0.1:5000` in your browser.
  
 
  
-## 🔑 Default Admin Access
+## Default Admin Access
  
 To create an admin user, register normally then update the role in your database:
  
@@ -83,7 +97,7 @@ UPDATE Users SET role = 'admin' WHERE email = 'your@email.com'
  
 
  
-## 📦 Requirements
+## Requirements
 
 Flask
 Flask-Login
@@ -92,7 +106,7 @@ PyMySQL
 
 
  
-## 🗄️ Database Schema
+## Database Schema
  
 | Table | Description |
 |---|---|
